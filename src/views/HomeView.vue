@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
-import ProgramItem from "../components/ProgramItem.vue";
+import ProgramItem from "@/components/ProgramItem.vue";
+import AppSearch from "@/components/AppSearch.vue";
 
 const store = useStore();
 
@@ -9,13 +10,24 @@ const series = computed(() => {
   return store.getters["movies/series"].slice(1, 5);
 });
 
+const state = {
+  filters: {},
+  sorts: [],
+};
+
 onMounted(() => {
   store.dispatch("movies/fetchMovies");
 });
 </script>
 
 <template>
-  <main class="max-w-7xl mx-auto space-y-4 pb-50">
+  <main class="max-w-7xl mx-auto space-y-4 pb-50 py-4">
+    <AppSearch
+      :search-text="searchText"
+      :filters="state.filters"
+      :sorts="state.sorts"
+    />
+
     <section class="max-w-7xl mx-auto mt-12">
       <h2 class="font-bold text-gray-500 text-lg">Series</h2>
       <section class="grid md:grid-cols-4 gap-2 mt-4">
