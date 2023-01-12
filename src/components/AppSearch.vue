@@ -42,6 +42,15 @@ const visibleOption = ref("");
 const isVisibleOption = (optionName) => {
   return optionName == visibleOption.value;
 };
+
+const resetFilters = () => {
+  visibleOption.value = "";
+  emit("update:filters", {
+    releaseYear: "",
+    programType: "",
+  });
+  emit("update:sorts", "");
+};
 </script>
 
 <template>
@@ -117,6 +126,13 @@ const isVisibleOption = (optionName) => {
           <IconFilter />
         </button>
       </section>
+      <button
+        title="Reset all filters"
+        class="hover:bg-red-400 hover:text-white px-2"
+        @click="resetFilters()"
+      >
+        X
+      </button>
     </template>
   </AtInput>
 </template>
