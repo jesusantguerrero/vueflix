@@ -16,7 +16,7 @@ export const useFilters = (onUrlChange) => {
     return Object.entries(externalFilters)
       .reduce((filters, [name, value]) => {
         if (value) {
-          filters.push(`filter[${name}]=${value}`);
+          filters.push(`${name}=${value}`);
         }
         return filters;
       }, [])

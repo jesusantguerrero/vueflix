@@ -1,5 +1,5 @@
 <script setup>
-import { AtInput } from "atmosphere-ui";
+import { AtInput, AtSelect } from "atmosphere-ui";
 import IconFilter from "@/components/icons/IconFilter.vue";
 import IconSort from "@/components/icons/IconSort.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
@@ -34,6 +34,10 @@ const sort = (field) => {
   visibleOption.value = "";
 };
 
+const filter = (name, value) => {
+  emit("update:filters", { ...props.filters, [name]: value });
+};
+
 const visibleOption = ref("");
 const isVisibleOption = (optionName) => {
   return optionName == visibleOption.value;
@@ -55,7 +59,7 @@ const isVisibleOption = (optionName) => {
             <span
               class="w-20 font-semibold text-gray-600 h-full flex items-center"
             >
-              Filter by:
+              Sort by:
             </span>
             <button
               class="hover:bg-gray-50 px-2 flex h-full items-center"
@@ -78,10 +82,37 @@ const isVisibleOption = (optionName) => {
             <IconSort />
           </button>
         </section>
+      </section>
+      <section class="flex" v-if="!isVisibleOption('sort')">
+        <template v-if="isVisibleOption('filter')">
+          <span
+            class="w-20 font-semibold text-gray-600 h-full flex items-center"
+          >
+            Filter by:
+          </span>
+          <select
+            :value="filters.releaseYear"
+            @click.stop
+            @change.stop="filter('releaseYear', $event.target.value)"
+            placeholder="Select Year"
+          >
+            <option value="2016">2016</option>
+            <option value="2013">2013</option>
+          </select>
+          <select
+            :value="filters.programType"
+            @click.stop
+            placeholder="Select program type"
+            @change.stop="filter('programType', $event.target.value)"
+          >
+            <option value="series">Series</option>
+            <option value="movie">Movie</option>
+          </select>
+        </template>
         <button
+          v-else
           class="hover:bg-gray-50 px-2"
-          v-if="!isVisibleOption('sort')"
-          @click="visibleOption = 'sort'"
+          @click="visibleOption = 'filter'"
         >
           <IconFilter />
         </button>
