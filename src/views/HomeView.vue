@@ -23,7 +23,7 @@ const results = computed(() => {
   return store.getters["movies/results"];
 });
 
-const state = useFilters((finalUrl) => {
+const { filters, sorts, reset } = useFilters((finalUrl) => {
   store.dispatch("movies/executeSearch", finalUrl);
 });
 
@@ -36,8 +36,10 @@ onMounted(() => {
   <main class="max-w-7xl mx-auto space-y-4 pb-50 py-4">
     <AppSearch
       v-model="searchText"
-      v-model:filters="state.filters"
-      v-model:sorts="state.sorts"
+      v-model:filters="filters"
+      v-model:sorts="sorts"
+      :has-filters="displaySearch"
+      @clear="reset()"
     />
     <template v-if="!displaySearch">
       <section class="max-w-7xl mx-auto mt-12">

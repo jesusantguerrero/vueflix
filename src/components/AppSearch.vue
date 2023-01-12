@@ -1,16 +1,17 @@
 <script setup>
-import { AtInput, AtSelect } from "atmosphere-ui";
+import { AtInput } from "atmosphere-ui";
 import IconFilter from "@/components/icons/IconFilter.vue";
 import IconSort from "@/components/icons/IconSort.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import { ref } from "vue";
+import IconClose from "./icons/IconClose.vue";
 
 const props = defineProps({
   filters: {
     type: Object,
   },
   sorts: {
-    type: String,
+    type: Object,
   },
   searchText: {
     type: String,
@@ -18,24 +19,40 @@ const props = defineProps({
   placeholder: {
     type: String,
   },
+  hasFilters: {
+    type: Boolean,
+  },
 });
 
 const emit = defineEmits([
   "update:sorts",
   "update:filters",
   "update:modelValue",
+  "clear",
 ]);
 
 const sort = (field) => {
-  const defaultOrder = `${field}&_order=asc`;
-  const sortText =
-    props.sorts == defaultOrder ? `${field}&_order=desc` : defaultOrder;
-  emit("update:sorts", sortText);
+  const sortField = props.sorts[field];
+  const direction = ["desc", ""].includes(sortField.direction) ? `asc` : "desc";
+  emit("update:sorts", {
+    ...props.sorts,
+    [field]: {
+      ...sortField,
+      value: true,
+      direction,
+    },
+  });
   visibleOption.value = "";
 };
 
 const filter = (name, value) => {
-  emit("update:filters", { ...props.filters, [name]: value });
+  emit("update:filters", {
+    ...props.filters,
+    [name]: {
+      ...props.filters[name],
+      value,
+    },
+  });
 };
 
 const visibleOption = ref("");
@@ -44,12 +61,8 @@ const isVisibleOption = (optionName) => {
 };
 
 const resetFilters = () => {
+  emit("clear");
   visibleOption.value = "";
-  emit("update:filters", {
-    releaseYear: "",
-    programType: "",
-  });
-  emit("update:sorts", "");
 };
 </script>
 
@@ -62,6 +75,14 @@ const resetFilters = () => {
       <button class="rounded-l-md hover:bg-gray-50 px-4"><IconSearch /></button>
     </template>
     <template #suffix>
+      <button
+        title="Reset all filters"
+        class="hover:bg-red-400 bg-gray-100 h-6  transition-all mr-4 flex items-center justify-center w-6 my-auto hover:text-white px-2 rounded-full"
+        @click="resetFilters()"
+        v-if="hasFilters"
+      >
+        <IconClose />
+      </button>
       <section class="actions flex rounded-r-md">
         <section class="flex">
           <template v-if="isVisibleOption('sort')">
@@ -100,7 +121,7 @@ const resetFilters = () => {
             Filter by:
           </span>
           <select
-            :value="filters.releaseYear"
+            :value="filters.releaseYear.value"
             @click.stop
             @change.stop="filter('releaseYear', $event.target.value)"
             placeholder="Select Year"
@@ -109,7 +130,7 @@ const resetFilters = () => {
             <option value="2013">2013</option>
           </select>
           <select
-            :value="filters.programType"
+            :value="filters.programType.value"
             @click.stop
             placeholder="Select program type"
             @change.stop="filter('programType', $event.target.value)"
@@ -126,13 +147,6 @@ const resetFilters = () => {
           <IconFilter />
         </button>
       </section>
-      <button
-        title="Reset all filters"
-        class="hover:bg-red-400 hover:text-white px-2"
-        @click="resetFilters()"
-      >
-        X
-      </button>
     </template>
   </AtInput>
 </template>

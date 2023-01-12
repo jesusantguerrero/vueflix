@@ -18,7 +18,7 @@ export const movies = {
     },
 
     shouldDisplayResults(state) {
-      return state.searchParams;
+      return !!state.searchParams;
     },
 
     results(state) {
