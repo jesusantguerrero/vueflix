@@ -4,12 +4,12 @@ import IconFilter from "@/components/icons/IconFilter.vue";
 import IconSort from "@/components/icons/IconSort.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 
-defineProps({
+const props = defineProps({
   filters: {
     type: Object,
   },
   sorts: {
-    type: Array,
+    type: String,
   },
   searchText: {
     type: String,
@@ -18,6 +18,17 @@ defineProps({
     type: String,
   },
 });
+
+const emit = defineEmits([
+  "update:sorts",
+  "update:filters",
+  "update:modelValue",
+]);
+
+const sort = (field) => {
+  const sortText = props.sorts == field ? `-${field}` : field;
+  emit("update:sorts", sortText);
+};
 </script>
 
 <template>
@@ -30,8 +41,12 @@ defineProps({
     </template>
     <template #suffix>
       <section class="actions flex rounded-r-md">
-        <button class="hover:bg-gray-50 px-2"><IconSort /></button>
-        <button class="hover:bg-gray-50 px-2"><IconFilter /></button>
+        <button class="hover:bg-gray-50 px-2" @click="sort('year')">
+          <IconSort />
+        </button>
+        <button class="hover:bg-gray-50 px-2" @click="sort('filter')">
+          <IconFilter />
+        </button>
       </section>
     </template>
   </AtInput>

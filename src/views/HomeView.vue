@@ -3,6 +3,7 @@ import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import ProgramItem from "@/components/ProgramItem.vue";
 import AppSearch from "@/components/AppSearch.vue";
+import { useFilters } from "@/composables/useFilters";
 
 const store = useStore();
 
@@ -10,10 +11,9 @@ const series = computed(() => {
   return store.getters["movies/series"].slice(1, 5);
 });
 
-const state = {
-  filters: {},
-  sorts: [],
-};
+const state = useFilters((finalUrl) => {
+  console.log(finalUrl);
+})
 
 onMounted(() => {
   store.dispatch("movies/fetchMovies");
@@ -23,9 +23,9 @@ onMounted(() => {
 <template>
   <main class="max-w-7xl mx-auto space-y-4 pb-50 py-4">
     <AppSearch
-      :search-text="searchText"
-      :filters="state.filters"
-      :sorts="state.sorts"
+      v-model="searchText"
+      v-model:filters="state.filters"
+      v-model:sorts="state.sorts"
     />
 
     <section class="max-w-7xl mx-auto mt-12">
