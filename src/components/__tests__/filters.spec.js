@@ -103,4 +103,14 @@ describe("Filters Transforms", async () => {
 
     expect(params).toBeFalsy();
   });
+
+  it("it should parse fulltext search", async () => {
+    const params = parseParams({
+      searchText: "hello world",
+      filters: {},
+      sorts: {},
+    });
+
+    expect(params).toBe("q=hello world");
+  });
 });
