@@ -7,6 +7,7 @@ import { useFilters } from "@/composables/useFilters";
 import AppSearchFilterLabels from "../components/AppSearchFilterLabels.vue";
 import AppLayout from "./Partials/AppLayout.vue";
 import HomeSpotlight from "./Partials/HomeSpotlight.vue";
+import SearchResultsGrid from "./Partials/SearchResultsGrid.vue";
 
 const store = useStore();
 
@@ -55,9 +56,9 @@ const { filters, sorts, searchText, reset } = useFilters((finalUrl) => {
       <!-- Let's show the current filters -->
       <AppSearchFilterLabels v-model:filters="filters" v-model:sorts="sorts" />
 
-      <HomeSpotlight />
       <!-- Lets get some fun showing spotlight -->
       <template v-if="!displaySearch">
+        <HomeSpotlight />
         <section class="max-w-7xl mx-auto mt-12">
           <h2 class="font-bold text-gray-500 text-lg">Series</h2>
           <section class="grid md:grid-cols-4 gap-2 mt-4">
@@ -73,16 +74,11 @@ const { filters, sorts, searchText, reset } = useFilters((finalUrl) => {
       </template>
 
       <!-- The rest of the list an search results -->
-      <section class="mt-4">
-        <h2 class="font-bold text-gray-500 text-lg">{{ sectionTitle }}</h2>
-        <section class="grid md:grid-cols-4 gap-2 mt-4">
-          <ProgramItem
-            v-for="program in results"
-            :key="program.id"
-            :program="program"
-          />
-        </section>
-      </section>
+      <SearchResultsGrid
+        class="mt-4"
+        :title="sectionTitle"
+        :results="results"
+      />
     </main>
   </AppLayout>
 </template>
