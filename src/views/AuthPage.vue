@@ -12,6 +12,7 @@ const props = defineProps({
     default: "login",
   },
 });
+
 const authMethods = {
   login,
   register,
@@ -28,9 +29,8 @@ const state = reactive({
 const { push } = useRouter();
 const onSubmit = async (data) => {
   try {
-    const user = await authMethods[props.mode](data);
+    await authMethods[props.mode](data);
     nextTick(() => {
-      console.log(user);
       push({ name: "home" });
     });
   } catch (error) {
@@ -49,7 +49,7 @@ const onLinkPressed = () => {
 <template>
   <AtAuthBox>
     <AtAuthForm
-      :is-loading="isLoading"
+      :is-loading="state.isLoading"
       :mode="mode"
       v-model="formData"
       @submit="onSubmit"

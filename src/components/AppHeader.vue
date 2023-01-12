@@ -31,8 +31,8 @@ const { push } = useRouter();
 const onLogout = () => {
   logout().then(() => {
     nextTick(() => {
-        push("/");
-    })
+      push({ name: "login" });
+    });
   });
 };
 </script>
