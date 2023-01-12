@@ -34,7 +34,7 @@ const results = computed(() => {
 
 const { filters, sorts, searchText, reset } = useFilters((finalUrl) => {
   store.dispatch("movies/executeSearch", finalUrl);
-});
+}, store.state.movies.searchParams);
 </script>
 
 <template>

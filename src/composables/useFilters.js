@@ -40,6 +40,10 @@ export const parseParams = (paramsConfig) => {
     parseSortParams(paramsConfig.sorts),
   ];
 
+  if (paramsConfig.searchText) {
+    params.unshift(`q=${paramsConfig.searchText}`);
+  }
+
   return params.filter((value) => value?.trim()).join("&");
 };
 
@@ -70,16 +74,16 @@ const DEFAULT_CONFIG = {
   },
 };
 
-export const useFilters = (onUrlChange) => {
+export const useFilters = (onUrlChange, currentSearchString) => {
   const state = reactive({ ...DEFAULT_CONFIG });
 
   watch(
     () => state,
     (paramsConfig) => {
       const urlParams = parseParams(paramsConfig);
-      const finalUrl = `${window.location.pathname}?${urlParams}`;
-
-      if (finalUrl != window.location.toString()) {
+      const finalUrl = `${urlParams}`;
+      console.log(currentSearchString);
+      if (finalUrl != currentSearchString.value) {
         onUrlChange && onUrlChange(urlParams);
       }
     },

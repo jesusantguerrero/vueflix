@@ -5,6 +5,7 @@ import IconSort from "@/components/icons/IconSort.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import { ref } from "vue";
 import IconClose from "./icons/IconClose.vue";
+import { useDebounceFn } from "@vueuse/shared";
 
 const props = defineProps({
   filters: {
@@ -13,7 +14,7 @@ const props = defineProps({
   sorts: {
     type: Object,
   },
-  searchText: {
+  modelValue: {
     type: String,
   },
   placeholder: {
@@ -64,12 +65,18 @@ const resetFilters = () => {
   emit("clear");
   visibleOption.value = "";
 };
+
+const handleInput = useDebounceFn((searchText) => {
+  emit("update:modelValue", searchText);
+}, 200);
 </script>
 
 <template>
   <AtInput
     class="rounded-md bg-gray-200 w-full h-10"
     :placeholder="placeholder"
+    :model-value="modelValue"
+    @update:modelValue="handleInput"
   >
     <template #prefix>
       <button class="rounded-l-md hover:bg-gray-50 px-4"><IconSearch /></button>
@@ -77,7 +84,7 @@ const resetFilters = () => {
     <template #suffix>
       <button
         title="Reset all filters"
-        class="hover:bg-red-400 bg-gray-100 h-6  transition-all mr-4 flex items-center justify-center w-6 my-auto hover:text-white px-2 rounded-full"
+        class="hover:bg-red-400 bg-gray-100 h-6 transition-all mr-4 flex items-center justify-center w-6 my-auto hover:text-white px-2 rounded-full"
         @click="resetFilters()"
         v-if="hasFilters"
       >
