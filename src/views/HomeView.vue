@@ -12,8 +12,8 @@ const series = computed(() => {
 });
 
 const state = useFilters((finalUrl) => {
-  console.log(finalUrl);
-})
+  store.dispatch("movies/executeSearch", finalUrl);
+});
 
 onMounted(() => {
   store.dispatch("movies/fetchMovies");

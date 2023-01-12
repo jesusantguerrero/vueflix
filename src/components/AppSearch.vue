@@ -3,6 +3,7 @@ import { AtInput } from "atmosphere-ui";
 import IconFilter from "@/components/icons/IconFilter.vue";
 import IconSort from "@/components/icons/IconSort.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
+import { ref } from "vue";
 
 const props = defineProps({
   filters: {
@@ -26,8 +27,14 @@ const emit = defineEmits([
 ]);
 
 const sort = (field) => {
-  const sortText = props.sorts == field ? `-${field}` : field;
+  const sortText = props.sorts.includes(field) ? `${field}&_order=desc` : field;
   emit("update:sorts", sortText);
+  visibleOption.value = "";
+};
+
+const visibleOption = ref("");
+const isVisibleOption = (optionName) => {
+  return optionName == visibleOption.value;
 };
 </script>
 
@@ -41,10 +48,39 @@ const sort = (field) => {
     </template>
     <template #suffix>
       <section class="actions flex rounded-r-md">
-        <button class="hover:bg-gray-50 px-2" @click="sort('year')">
-          <IconSort />
-        </button>
-        <button class="hover:bg-gray-50 px-2" @click="sort('filter')">
+        <section class="flex">
+          <template v-if="isVisibleOption('sort')">
+            <span
+              class="w-20 font-semibold text-gray-600 h-full flex items-center"
+            >
+              Filter by:
+            </span>
+            <button
+              class="hover:bg-gray-50 px-2 flex h-full items-center"
+              @click="sort('releaseYear')"
+            >
+              <IconSort /> Year
+            </button>
+            <button
+              class="hover:bg-gray-50 px-2 flex items-center"
+              @click="sort('title')"
+            >
+              <IconSort /> Name
+            </button>
+          </template>
+          <button
+            class="hover:bg-gray-50 px-2"
+            @click="visibleOption = 'sort'"
+            v-else
+          >
+            <IconSort />
+          </button>
+        </section>
+        <button
+          class="hover:bg-gray-50 px-2"
+          v-if="!isVisibleOption('sort')"
+          @click="visibleOption = 'sort'"
+        >
           <IconFilter />
         </button>
       </section>

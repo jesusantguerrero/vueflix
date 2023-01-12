@@ -24,7 +24,7 @@ export const useFilters = (onUrlChange) => {
   };
 
   const getSortsParams = (sorts) => {
-    return sorts && `sort=${sorts}`;
+    return sorts && `_sort=${sorts}`;
   };
 
   watch(
@@ -37,7 +37,7 @@ export const useFilters = (onUrlChange) => {
         .join("&");
       const finalUrl = `${window.location.pathname}?${urlParams}`;
       if (finalUrl != window.location.toString()) {
-        onUrlChange && onUrlChange(finalUrl);
+        onUrlChange && onUrlChange(urlParams);
       }
     },
     { deep: true }

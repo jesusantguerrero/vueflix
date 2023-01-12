@@ -1,9 +1,12 @@
 import axios from "axios";
+const endpoint = import.meta.env.VITE_API_URL;
 
 export const movies = {
   namespaced: true,
   state: () => ({
     data: [],
+    searchResults: [],
+    searchParams: "",
   }),
   getters: {
     series(state) {
@@ -16,8 +19,14 @@ export const movies = {
   },
   actions: {
     fetchMovies({ state }) {
-      axios.get(import.meta.env.VITE_API_URL).then(({ data }) => {
+      axios.get(endpoint).then(({ data }) => {
         state.data = data;
+      });
+    },
+    executeSearch({ state }, searchParams) {
+      state.searchParams = searchParams;
+      axios.get(`${endpoint}?${searchParams}`).then(({ data }) => {
+        state.searchResults = data;
       });
     },
   },
