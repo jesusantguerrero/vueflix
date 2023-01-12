@@ -11,6 +11,18 @@ const series = computed(() => {
   return store.getters["movies/series"].slice(1, 5);
 });
 
+const displaySearch = computed(() => {
+  return store.getters["movies/shouldDisplayResults"];
+});
+
+const sectionTitle = computed(() => {
+  return displaySearch.value ? "Search results:" : "All programs";
+});
+
+const results = computed(() => {
+  return store.getters["movies/results"];
+});
+
 const state = useFilters((finalUrl) => {
   store.dispatch("movies/executeSearch", finalUrl);
 });
@@ -27,24 +39,26 @@ onMounted(() => {
       v-model:filters="state.filters"
       v-model:sorts="state.sorts"
     />
-
-    <section class="max-w-7xl mx-auto mt-12">
-      <h2 class="font-bold text-gray-500 text-lg">Series</h2>
-      <section class="grid md:grid-cols-4 gap-2 mt-4">
-        <ProgramItem
-          v-for="program in series"
-          :key="program.id"
-          :program="program"
-          class="h-32"
-          image-only
-        />
+    <template v-if="!displaySearch">
+      <section class="max-w-7xl mx-auto mt-12">
+        <h2 class="font-bold text-gray-500 text-lg">Series</h2>
+        <section class="grid md:grid-cols-4 gap-2 mt-4">
+          <ProgramItem
+            v-for="(program, index) in series"
+            :key="`${program.title}-${index}`"
+            :program="program"
+            class="h-32"
+            image-only
+          />
+        </section>
       </section>
-    </section>
+    </template>
+
     <section class="mt-4">
-      <h2 class="font-bold text-gray-500 text-lg">All</h2>
+      <h2 class="font-bold text-gray-500 text-lg">{{ sectionTitle }}</h2>
       <section class="grid md:grid-cols-4 gap-2 mt-4">
         <ProgramItem
-          v-for="program in store.state.movies.data"
+          v-for="program in results"
           :key="program.id"
           :program="program"
         />

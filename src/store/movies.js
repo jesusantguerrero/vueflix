@@ -13,8 +13,16 @@ export const movies = {
       return state.data.filter((stream) => stream.programType == "series");
     },
 
-    movies({ state }) {
+    movies(state) {
       return state.data.filter((stream) => stream.programType == "movies");
+    },
+
+    shouldDisplayResults(state) {
+      return state.searchParams;
+    },
+
+    results(state) {
+      return state.searchParams ? state.searchResults : state.data;
     },
   },
   actions: {

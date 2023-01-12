@@ -27,7 +27,9 @@ const emit = defineEmits([
 ]);
 
 const sort = (field) => {
-  const sortText = props.sorts.includes(field) ? `${field}&_order=desc` : field;
+  const defaultOrder = `${field}&_order=asc`;
+  const sortText =
+    props.sorts == defaultOrder ? `${field}&_order=desc` : defaultOrder;
   emit("update:sorts", sortText);
   visibleOption.value = "";
 };
