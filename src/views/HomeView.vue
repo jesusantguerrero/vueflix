@@ -4,6 +4,7 @@ import { useStore } from "vuex";
 import ProgramItem from "@/components/ProgramItem.vue";
 import AppSearch from "@/components/AppSearch.vue";
 import { useFilters } from "@/composables/useFilters";
+import AppSearchFilterLabels from "../components/AppSearchFilterLabels.vue";
 
 const store = useStore();
 
@@ -41,6 +42,8 @@ onMounted(() => {
       :has-filters="displaySearch"
       @clear="reset()"
     />
+    <AppSearchFilterLabels v-model:filters="filters" v-model:sorts="sorts" />
+
     <template v-if="!displaySearch">
       <section class="max-w-7xl mx-auto mt-12">
         <h2 class="font-bold text-gray-500 text-lg">Series</h2>
