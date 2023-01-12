@@ -16,12 +16,14 @@
     "@supabase/supabase-js": "^2.4.0",
     "atmosphere-ui": "^1.0.6-beta",
     "axios": "^1.2.2",
+    "v-lazy-image": "^2.1.1",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
+    "@testing-library/vue": "^6.6.1",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/test-utils": "^2.2.6",
