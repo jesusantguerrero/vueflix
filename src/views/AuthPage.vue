@@ -76,7 +76,12 @@ const onLinkPressed = () => {
 
       <p>Please, Confirm your email to validate your account.</p>
 
-      <AtButton class="mb-2 font-bold border-2 border-red-400 rounded-md bg-gradient-to-br from-red-600 to-red-800" @click="onLinkPressed"> Back to login </AtButton>
+      <AtButton
+        class="mb-2 font-bold border-2 border-red-400 rounded-md bg-gradient-to-br from-red-600 to-red-800"
+        @click="onLinkPressed"
+      >
+        Back to login
+      </AtButton>
     </article>
   </AtAuthBox>
 </template>

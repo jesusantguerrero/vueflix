@@ -26,7 +26,7 @@ defineEmits(["open", "close", "select"]);
 </script>
 
 <template>
-  <section>
+  <section class="h-full">
     <template v-if="isActive">
       <span
         class="w-48 px-2 font-semibold text-gray-600 h-full flex items-center"
@@ -43,7 +43,7 @@ defineEmits(["open", "close", "select"]);
         />
       </slot>
     </template>
-    <button v-else class="hover:bg-gray-50 px-2" @click="$emit('open')">
+    <button v-else class="hover:bg-gray-50 px-2 h-full" @click="$emit('open')">
       <slot name="icon">
         <IconFilter />
       </slot>

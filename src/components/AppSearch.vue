@@ -19,6 +19,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
+    default: "Search...",
   },
   hasFilters: {
     type: Boolean,
@@ -77,7 +78,7 @@ const handleInput = useDebounceFn((searchText) => {
 <template>
   <div class="flex rounded-md bg-gray-200 w-full h-12 border">
     <AtInput
-      v-if="!isVisibleOption('filter')"
+      v-if="!visibleOption"
       class="rounded-md bg-gray-200 w-full h-12"
       :is-borderless="true"
       input-class="overflow-visible"
@@ -101,41 +102,40 @@ const handleInput = useDebounceFn((searchText) => {
         >
           <IconClose />
         </button>
-        <section class="actions flex rounded-r-md">
-          <AppSearchFilters
-            class="flex space-x-4 items-center"
-            title="Sort by"
-            :is-active="isVisibleOption('sort')"
-            :filters="sorts"
-            :fields="['title', 'releaseYear']"
-            @open="visibleOption = 'sort'"
-            @close="visibleOption = null"
-          >
-            <template #releaseYear>
-              <button
-                class="hover:bg-gray-50 px-2 flex h-full items-center"
-                @click="sort('releaseYear')"
-              >
-                <IconSort /> Year
-              </button>
-            </template>
-
-            <template #title>
-              <button
-                class="hover:bg-gray-50 px-2 flex items-center"
-                @click="sort('title')"
-              >
-                <IconSort /> Name
-              </button>
-            </template>
-
-            <template #icon>
-              <IconSort />
-            </template>
-          </AppSearchFilters>
-        </section>
       </template>
     </AtInput>
+    <AppSearchFilters
+      v-if="!isVisibleOption('filter')"
+      class="flex space-x-4 items-center"
+      title="Sort by"
+      :is-active="isVisibleOption('sort')"
+      :filters="sorts"
+      :fields="['title', 'releaseYear']"
+      @open="visibleOption = 'sort'"
+      @close="visibleOption = null"
+    >
+      <template #releaseYear>
+        <button
+          class="hover:bg-gray-50 px-2 flex h-full items-center"
+          @click="sort('releaseYear')"
+        >
+          <IconSort /> Year
+        </button>
+      </template>
+
+      <template #title>
+        <button
+          class="hover:bg-gray-50 px-2 flex items-center"
+          @click="sort('title')"
+        >
+          <IconSort /> Name
+        </button>
+      </template>
+
+      <template #icon>
+        <IconSort />
+      </template>
+    </AppSearchFilters>
     <AppSearchFilters
       class="flex space-x-4 items-center"
       v-if="!isVisibleOption('sort')"
