@@ -19,6 +19,7 @@
     "axios": "^1.2.2",
     "v-lazy-image": "^2.1.1",
     "vue": "^3.2.45",
+    "vue-multiselect": "^3.0.0-alpha.2",
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2"
   },
