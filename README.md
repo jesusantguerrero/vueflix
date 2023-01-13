@@ -12,6 +12,7 @@ List programs (movies and series) from api and allow filter, sort and search
 
 ## Demo
 ![Home](./Art/home.png)
+![Home Mobile](./Art/home-mobile.png)
 
 
 ## Prerequisites
