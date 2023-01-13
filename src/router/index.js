@@ -34,6 +34,7 @@ const router = createRouter({
   ],
 });
 
+// Let's check if the user is authenticated before entering to a path that requires authentication
 router.beforeEach(async (to, _from, next) => {
   const user = await isAuthenticated();
   const isPublicRoute = to.matched.some(
