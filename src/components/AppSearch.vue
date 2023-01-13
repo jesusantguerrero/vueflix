@@ -30,6 +30,8 @@ const emit = defineEmits([
   "update:filters",
   "update:modelValue",
   "clear",
+  "blur",
+  "focus",
 ]);
 
 const sort = (field) => {
@@ -54,6 +56,7 @@ const filter = (name, value) => {
       value,
     },
   });
+  visibleOption.value = "";
 };
 
 const visibleOption = ref("");
@@ -77,9 +80,11 @@ const handleInput = useDebounceFn((searchText) => {
     :placeholder="placeholder"
     :model-value="modelValue"
     @update:modelValue="handleInput"
+    @focus="$emit('focus')"
+    @blur="$emit('blur')"
   >
     <template #prefix>
-      <button class="rounded-l-md hover:bg-gray-50 px-4"><IconSearch /></button>
+      <button class="rounded-l-md px-2 hover:bg-gray-50 md:px-4"><IconSearch /></button>
     </template>
     <template #suffix>
       <button
@@ -90,7 +95,10 @@ const handleInput = useDebounceFn((searchText) => {
       >
         <IconClose />
       </button>
-      <section class="actions flex rounded-r-md">
+      <section
+        class="actions flex rounded-r-md"
+        v-if="!isVisibleOption('filter')"
+      >
         <section class="flex">
           <template v-if="isVisibleOption('sort')">
             <span

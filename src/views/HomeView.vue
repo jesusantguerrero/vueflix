@@ -49,6 +49,8 @@ const { filters, sorts, searchText, reset } = useFilters((finalUrl) => {
         class="w-full"
         :has-filters="displaySearch"
         @clear="reset()"
+        @focus="store.dispatch('app/toggleSearchFocus', true)"
+        @blur="store.dispatch('app/toggleSearchFocus', false)"
       />
     </template>
 
