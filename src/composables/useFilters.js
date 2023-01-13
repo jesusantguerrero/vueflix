@@ -1,4 +1,5 @@
 import { reactive, toRefs, watch } from "vue";
+import { composeRangeYears } from "../utils";
 
 export const parseFilterParams = (filterConfig) => {
   return Object.entries(filterConfig)
@@ -53,6 +54,7 @@ const DEFAULT_CONFIG = {
     releaseYear: {
       label: "Year",
       value: "",
+      options: composeRangeYears(1996),
     },
     programType: {
       label: "Type",
@@ -82,7 +84,6 @@ export const useFilters = (onUrlChange, currentSearchString) => {
     (paramsConfig) => {
       const urlParams = parseParams(paramsConfig);
       const finalUrl = `${urlParams}`;
-      console.log(currentSearchString);
       if (finalUrl != currentSearchString.value) {
         onUrlChange && onUrlChange(urlParams);
       }
