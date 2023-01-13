@@ -11,6 +11,11 @@ List programs (movies and series) from api and allow filter, sort and search
 - [x] Sort by name and year
 
 ## Demo
+live: https://vueflix-rosy.vercel.app
+
+Demo User: jidabid256@vingood.com
+Demo Password: password 
+
 ![Home](./Art/home.png)
 ![Home Mobile](./Art/home-mobile.png)
 
