@@ -54,14 +54,14 @@ const { filters, sorts, searchText, reset } = useFilters((finalUrl) => {
       />
     </template>
 
-    <main class="max-w-7xl mx-auto space-y-4 pb-50 py-4">
+    <main class="max-w-7xl mx-auto md:space-y-4 pb-50 md:py-4">
       <!-- Let's show the current filters -->
       <AppSearchFilterLabels v-model:filters="filters" v-model:sorts="sorts" />
 
       <!-- Lets get some fun showing spotlight -->
       <template v-if="!displaySearch">
         <HomeSpotlight />
-        <section class="max-w-7xl mx-auto mt-12">
+        <section class="max-w-7xl mx-auto mt-12 px-4 md:px-0">
           <h2 class="font-bold text-gray-500 text-lg">Series</h2>
           <section class="grid md:grid-cols-4 gap-2 mt-4">
             <ProgramItem
@@ -77,7 +77,7 @@ const { filters, sorts, searchText, reset } = useFilters((finalUrl) => {
 
       <!-- The rest of the list an search results -->
       <SearchResultsGrid
-        class="mt-4"
+        class="mt-8 md:mt-4"
         :title="sectionTitle"
         :results="results"
       />
